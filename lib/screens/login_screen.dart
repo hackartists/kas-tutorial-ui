@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:kastutorial/store/preference.dart';
 import 'home_screen.dart';
 
 const users = const {
@@ -11,6 +12,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<String> _authUser(LoginData data) {
     print('Name: ${data.name}, Password: ${data.password}');
+    Preference.saveAccountAddress("addr");
     return Future.delayed(loginTime).then((_) {
       return null;
     });
@@ -33,10 +35,11 @@ class LoginScreen extends StatelessWidget {
       // theme: LoginTheme(titleStyle: TextStyle(height: 30)),
       logo: 'assets/images/klaytn-logo-green.png',
       onLogin: _authUser,
-      onSignup: _authUser,
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) {
+            return HomeScreen();
+          },
         ));
       },
       messages: LoginMessages(usernameHint: "Username"),
@@ -44,6 +47,7 @@ class LoginScreen extends StatelessWidget {
       hideForgotPasswordButton: true,
       hideSignUpButton: true,
       onRecoverPassword: _recoverPassword,
+      onSignup: (LoginData) {},
     );
   }
 }

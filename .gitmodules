@@ -1,0 +1,6 @@
+[submodule "refs/flutter_medical"]
+	path = refs/flutter_medical
+	url = git@github.com:johnuberbacher/flutter_medical.git
+[submodule "refs/profile_app"]
+	path = refs/profile_app
+	url = git@github.com:zmqgithub/profile_app.git
