@@ -8,12 +8,20 @@ const users = const {
 };
 
 class LoginScreen extends StatelessWidget {
+  String username;
+  String password;
+
   Duration get loginTime => Duration(milliseconds: 2250);
 
   Future<String> _authUser(LoginData data) {
     print('Name: ${data.name}, Password: ${data.password}');
+    Preference.saveAuthentication(data.name, data.password);
     Preference.saveAccountAddress("addr");
+
     return Future.delayed(loginTime).then((_) {
+      username = data.name;
+      password = data.password;
+
       return null;
     });
   }
@@ -38,7 +46,7 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) {
-            return HomeScreen();
+            return HomeScreen(username: username, password: password);
           },
         ));
       },

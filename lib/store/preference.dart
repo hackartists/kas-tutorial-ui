@@ -8,7 +8,7 @@ class Preference {
   static void saveAuthentication(String uid, String pw) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    await preferences.setString(username, username);
+    await preferences.setString(username, uid);
     await preferences.setString(password, pw);
   }
 
@@ -20,5 +20,15 @@ class Preference {
   static Future<String> getAddress() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(address);
+  }
+
+  static Future<String> getUsername() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(username);
+  }
+
+  static Future<String> getPassword() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(password);
   }
 }

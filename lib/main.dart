@@ -16,6 +16,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String address;
+  String username;
+  String password;
 
   @override
   void initState() {
@@ -26,6 +28,12 @@ class _MyAppState extends State<MyApp> {
   getAccountAddress() async {
     Preference.getAddress().then((value) => setState(() {
           address = value;
+        }));
+    Preference.getUsername().then((value) => setState(() {
+          username = value;
+        }));
+    Preference.getPassword().then((value) => setState(() {
+          password = value;
         }));
   }
 
@@ -68,7 +76,12 @@ class _MyAppState extends State<MyApp> {
           overline: TextStyle(fontFamily: 'NotoSans'),
         ),
       ),
-      home: address != null && address != "" ? HomeScreen() : LoginScreen(),
+      home: username != null &&
+              username != "" &&
+              password != null &&
+              password != ""
+          ? HomeScreen(username: username, password: password)
+          : LoginScreen(),
       // navigatorObservers: [TransitionRouteObserver()],
       // initialRoute: LoginScreen.routeName,
       // routes: {
