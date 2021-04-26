@@ -22,7 +22,7 @@ class Client {
 
   static Future<int> getBalance(String userid) async {
     final response =
-        await http.get(Uri.http('10.1.1.2:3000', '/v1/user/${userid}/balance'));
+        await http.get(Uri.http('10.1.1.2:3000', '/v1/user/$userid/klay'));
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -35,7 +35,7 @@ class Client {
   static Future<int> sendKlay(
       String userid, String toUserid, int amount) async {
     final response = await http.post(
-      Uri.http('10.1.1.2:3000', '/v1/user/${userid}/balance'),
+      Uri.http('10.1.1.2:3000', '/v1/user/$userid/klay'),
       body: {
         "to": toUserid,
         "amount": amount,
@@ -48,5 +48,18 @@ class Client {
     }
 
     throw Exception('failed to get balance');
+  }
+
+  static Future<List> getSuggestions(String pattern) async {
+    final response = await http.get(
+        Uri.http("10.1.1.2:3000", "/v1/search", {"user-pattern": pattern}));
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return jsonDecode(response.body)['users'];
+    }
+
+    return [];
   }
 }
