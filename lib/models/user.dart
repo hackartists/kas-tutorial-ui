@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class User {
-  final String address;
-  final int balance;
+  String address;
+  int balance;
 
   User({@required this.address, @required this.balance});
 

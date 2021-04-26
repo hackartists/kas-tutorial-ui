@@ -1,37 +1,56 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kastutorial/models/user.dart';
+import 'package:kastutorial/screens/send_klay_screen.dart';
 import 'package:kastutorial/services/client.dart';
 import 'package:kastutorial/store/preference.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String username;
-  final String password;
+  String username;
+  String password;
 
-  const HomeScreen({Key key, this.username, this.password}) : super(key: key);
+  HomeScreen({Key key, this.username, this.password}) : super(key: key);
 
   @override
-  HomeScreenState createState() => HomeScreenState();
+  HomeScreenState createState() =>
+      HomeScreenState(username: this.username, password: this.password);
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  User user;
+  String username;
+  String password;
+  String address;
+  int balance;
+
+  HomeScreenState({this.username, this.password});
 
   @override
   void initState() {
-    super.initState();
     setState(() {
-      this.user = User(address: "", balance: 0);
+      this.balance = 0;
     });
-    getUserInfo();
+    super.initState();
+    Preference.getUsername().then((value) => setState(() {
+          this.username = value;
+        }));
+    Preference.getPassword().then((value) => setState(() {
+          this.password = value;
+        }));
+
+    Preference.getAddress().then((value) => setState(() {
+          this.address = value;
+
+          Timer.periodic(new Duration(seconds: 1), (timer) async {
+            int balance = await Client.getBalance(address);
+            setState(() {
+              this.balance = balance;
+            });
+          });
+        }));
   }
 
-  getUserInfo() async {
-    // TODO: Get user's klaytn address and balance
-    final user = await Client.loginUser(widget.username, widget.password);
-    setState(() {
-      this.user = user;
-    });
-  }
+  sendKlay() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +75,17 @@ class HomeScreenState extends State<HomeScreen> {
           new Scaffold(
             backgroundColor: Colors.transparent,
             body: buildContainer(_height, _width),
+            floatingActionButton: FloatingActionButton(
+              tooltip: 'KLAY 전송',
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return SendKlayScreen();
+                  },
+                ));
+              },
+              child: Icon(Icons.send),
+            ), // This trailing comma makes auto-formatting nicer for build methods.
           ),
         ],
       ),
@@ -138,7 +168,7 @@ class HomeScreenState extends State<HomeScreen> {
             child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  headerChild('KLAY', this.user.balance),
+                  headerChild('KLAY', this.balance),
                   // headerChild('Followers', 1205),
                   // headerChild('Following', 360),
                 ]),
@@ -163,7 +193,7 @@ class HomeScreenState extends State<HomeScreen> {
           height: _height / 30,
         ),
         new Text(
-          widget.username,
+          this.username,
           style: new TextStyle(
               fontSize: 18.0, color: Colors.white, fontWeight: FontWeight.bold),
         )
