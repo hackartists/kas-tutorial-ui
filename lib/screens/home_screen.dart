@@ -80,7 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return SendKlayScreen();
+                    return SendKlayScreen(user: this.username);
                   },
                 ));
               },
