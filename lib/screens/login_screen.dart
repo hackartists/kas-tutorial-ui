@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:kastutorial/models/user.dart';
+import 'package:kastutorial/services/client.dart';
 import 'package:kastutorial/store/preference.dart';
 import 'home_screen.dart';
 
@@ -13,10 +15,14 @@ class LoginScreen extends StatelessWidget {
 
   Duration get loginTime => Duration(milliseconds: 2250);
 
-  Future<String> _authUser(LoginData data) {
+  Future<String> _authUser(LoginData data) async {
     print('Name: ${data.name}, Password: ${data.password}');
-    Preference.saveAuthentication(data.name, data.password);
-    Preference.saveAccountAddress("addr");
+    try {
+      User user = await Client.loginUser(data.name, data.password);
+      print(user);
+      Preference.saveAuthentication(data.name, data.password);
+      Preference.saveAccountAddress(user.address);
+    } catch (e) {}
 
     return Future.delayed(loginTime).then((_) {
       username = data.name;

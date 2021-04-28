@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:kastutorial/models/user.dart';
 
 class Client {
-  static final endpoint = '10.1.1.6:3000';
+  static final endpoint = '10.1.1.2:3000';
 
   static Future<User> loginUser(String username, String password) async {
     final response = await http.post(
