@@ -6,6 +6,7 @@ class User {
   User({@required this.address});
 
   factory User.fromJson(Map<String, dynamic> json) {
+    print(json);
     return User(
       address: json['address'],
     );

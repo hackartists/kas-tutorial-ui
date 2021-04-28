@@ -16,7 +16,7 @@ class SendKlayScreen extends StatefulWidget {
 }
 
 class SendKlayScreenState extends State<SendKlayScreen> {
-  int amount;
+  String amount;
   String toUser;
   String user;
   final _controller = TextEditingController();
@@ -85,13 +85,9 @@ class SendKlayScreenState extends State<SendKlayScreen> {
             padding: new EdgeInsets.only(top: _height / 5),
             child: TextField(
               keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
               onChanged: (value) {
-                final n = num.tryParse(value);
                 setState(() {
-                  this.amount = n;
+                  this.amount = value;
                 });
               },
               decoration: InputDecoration(

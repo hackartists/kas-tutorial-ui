@@ -21,14 +21,14 @@ class HomeScreenState extends State<HomeScreen> {
   String username;
   String password;
   String address;
-  int balance;
+  String balance;
 
   HomeScreenState({this.username, this.password});
 
   @override
   void initState() {
     setState(() {
-      this.balance = 0;
+      this.balance = '-';
     });
     super.initState();
     Preference.getUsername().then((value) => setState(() {
@@ -41,8 +41,8 @@ class HomeScreenState extends State<HomeScreen> {
     Preference.getAddress().then((value) => setState(() {
           this.address = value;
 
-          Timer.periodic(new Duration(seconds: 1), (timer) async {
-            int balance = await Client.getBalance(address);
+          Timer.periodic(new Duration(seconds: 3), (timer) async {
+            String balance = await Client.getBalance(username);
             setState(() {
               this.balance = balance;
             });
@@ -201,7 +201,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget headerChild(String header, int value) => new Expanded(
+  Widget headerChild(String header, String value) => new Expanded(
           child: new Column(
         children: <Widget>[
           new Text(header),

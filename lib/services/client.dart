@@ -9,20 +9,24 @@ class Client {
   static Future<User> loginUser(String username, String password) async {
     final response = await http.post(
       Uri.http(endpoint, '/v1/user'),
-      body: {
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
         "username": username,
         "password": password,
-      },
+      }),
     );
 
     if (response.statusCode == 200) {
+      print(response.body);
       return User.fromJson(jsonDecode(response.body));
     }
 
     throw Exception('failed to sign in');
   }
 
-  static Future<int> getBalance(String userid) async {
+  static Future<String> getBalance(String userid) async {
     final response =
         await http.get(Uri.http(endpoint, '/v1/user/$userid/klay'));
 
@@ -34,13 +38,16 @@ class Client {
   }
 
   static Future<String> sendKlay(
-      String userid, String toUserid, int amount) async {
+      String userid, String toUserid, String amount) async {
     final response = await http.post(
       Uri.http(endpoint, '/v1/user/$userid/klay'),
-      body: {
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
         "to": toUserid,
         "amount": amount,
-      },
+      }),
     );
 
     if (response.statusCode == 200) {

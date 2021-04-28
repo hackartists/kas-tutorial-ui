@@ -19,9 +19,11 @@ class LoginScreen extends StatelessWidget {
     print('Name: ${data.name}, Password: ${data.password}');
     try {
       User user = await Client.loginUser(data.name, data.password);
-      print(user);
-      Preference.saveAuthentication(data.name, data.password);
-      Preference.saveAccountAddress(user.address);
+      print(user.address);
+      if (user.address != null) {
+        Preference.saveAuthentication(data.name, data.password);
+        Preference.saveAccountAddress(user.address);
+      }
     } catch (e) {}
 
     return Future.delayed(loginTime).then((_) {
