@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kastutorial/components/app_button.dart';
 import 'package:kastutorial/models/user.dart';
 import 'package:kastutorial/screens/send_klay_screen.dart';
 import 'package:kastutorial/services/client.dart';
@@ -142,7 +143,47 @@ class HomeScreenState extends State<HomeScreen> {
               right: _width / 20,
             ),
             child: buildProfileInfo(_width),
-          )
+          ),
+          new Padding(
+            padding: new EdgeInsets.only(top: _height / 1.9),
+            child: Center(
+              widthFactor: _width,
+              child: Column(
+                children: [
+                  new Row(
+                    children: [
+                      AppButton(
+                        label: "거래내역",
+                        icon: Icons.history,
+                        onPressed: () {},
+                      ),
+                      AppButton(
+                        label: "공동금고",
+                        icon: Icons.monetization_on,
+                        color: Colors.amberAccent,
+                        onPressed: () {},
+                      ),
+                      AppButton(
+                        label: "자산",
+                        icon: Icons.card_giftcard,
+                        color: Colors.blueAccent,
+                        onPressed: () {},
+                      ),
+                      AppButton(
+                        label: "포인트",
+                        icon: Icons.credit_card,
+                        color: Colors.blueAccent,
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  new Row(
+                    children: [],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
