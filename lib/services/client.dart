@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:kastutorial/models/user.dart';
 
 class Client {
-  static final endpoint = '172.30.1.17:3000';
+  static final endpoint = env['CLIENT_URL'];
 
   static Future<User> loginUser(String username, String password) async {
     final response = await http.post(
