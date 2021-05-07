@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:kastutorial/models/klay_transfer.dart';
 import 'package:kastutorial/models/user.dart';
 
 class Client {
@@ -64,12 +65,33 @@ class Client {
         .get(Uri.http(endpoint, "/v1/search", {"user-pattern": pattern}));
 
     print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       return jsonDecode(response.body)['users'];
     }
 
     return [];
+  }
+
+  static Future<List<KlayTransfer>> getKlayHistory(
+      String userId, int start) async {
+    int end = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+    final response = await http
+        .get(Uri.http(endpoint, "/v1/user/$userId/klay/transfer-history", {
+      'start-timestamp': start.toString(),
+      'end-timestamp': end.toString(),
+    }));
+
+    print(response.statusCode);
+    List<KlayTransfer> ret = [];
+    if (response.statusCode == 200) {
+      List<dynamic> history = jsonDecode(response.body);
+
+      history.forEach((element) {
+        ret.add(KlayTransfer.fromJson(element));
+      });
+    }
+
+    return ret;
   }
 }

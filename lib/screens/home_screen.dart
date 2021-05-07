@@ -160,7 +160,7 @@ class HomeScreenState extends State<HomeScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return KlayHistoryScreen();
+                                return KlayHistoryScreen(userId: this.username);
                               },
                             ),
                           );

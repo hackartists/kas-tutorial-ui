@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:kastutorial/models/klay_transfer.dart';
+import 'package:kastutorial/services/client.dart';
 
 class KlayHistoryScreen extends StatefulWidget {
+  final String userId;
+
+  KlayHistoryScreen({Key key, @required this.userId}) : super(key: key);
   @override
-  KlayHistoryScreenState createState() => KlayHistoryScreenState();
+  KlayHistoryScreenState createState() =>
+      KlayHistoryScreenState(userId: this.userId);
 }
 
 class KlayHistoryScreenState extends State<KlayHistoryScreen> {
+  final String userId;
+  List<KlayTransfer> history = [];
+
+  KlayHistoryScreenState({Key key, this.userId});
+
+  @override
+  void initState() {
+    super.initState();
+    Client.getKlayHistory(
+      userId,
+      (DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch /
+              1000)
+          .round(),
+    )
+        .then((value) => setState(() {
+              this.history = value;
+            }))
+        .catchError((err) => print(err));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,37 +47,31 @@ class KlayHistoryScreenState extends State<KlayHistoryScreen> {
   }
 
   List<ListTile> buildHistory() {
-    return [
-      ListTile(
-        title: Text(
-          "0.1111",
-          style: TextStyle(color: Colors.blueAccent),
+    List<ListTile> ret = [];
+    this.history.forEach((element) {
+      Color color = element.eventType == 'received'
+          ? Colors.blueAccent
+          : Colors.redAccent;
+
+      ret.add(
+        ListTile(
+          title: Text(
+            element.value,
+            style: TextStyle(color: color),
+          ),
+          subtitle: Text(element.target),
+          leading: Icon(
+            Icons.arrow_upward,
+            color: color,
+          ),
+          trailing: Text(
+            '받음',
+            style: TextStyle(color: color),
+          ),
         ),
-        subtitle: Text('0xaaaaaaaaaaaaaaaaaaaa'),
-        leading: Icon(
-          Icons.arrow_upward,
-          color: Colors.blueAccent,
-        ),
-        trailing: Text(
-          '받음',
-          style: TextStyle(color: Colors.blueAccent),
-        ),
-      ),
-      ListTile(
-        title: Text(
-          "0.1111",
-          style: TextStyle(color: Colors.redAccent),
-        ),
-        subtitle: Text('0xaaaaaaaaaaaaaaaaaaaa'),
-        leading: Icon(
-          Icons.arrow_downward,
-          color: Colors.redAccent,
-        ),
-        trailing: Text(
-          '보냄',
-          style: TextStyle(color: Colors.redAccent),
-        ),
-      ),
-    ];
+      );
+    });
+
+    return ret;
   }
 }
