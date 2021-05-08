@@ -23,6 +23,8 @@ class LoginScreen extends StatelessWidget {
       if (user.address != null) {
         Preference.saveAuthentication(data.name, data.password);
         Preference.saveAccountAddress(user.address);
+        int ts = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+        Preference.saveTimestamp(ts);
       }
     } catch (e) {}
 

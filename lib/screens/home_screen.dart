@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kastutorial/components/app_button.dart';
-import 'package:kastutorial/models/user.dart';
 import 'package:kastutorial/screens/klay_history_screen.dart';
 import 'package:kastutorial/screens/send_klay_screen.dart';
 import 'package:kastutorial/services/client.dart';

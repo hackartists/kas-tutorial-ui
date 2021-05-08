@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kastutorial/models/klay_transfer.dart';
 import 'package:kastutorial/services/client.dart';
+import 'package:kastutorial/store/preference.dart';
 
 class KlayHistoryScreen extends StatefulWidget {
   final String userId;
@@ -14,22 +15,22 @@ class KlayHistoryScreen extends StatefulWidget {
 class KlayHistoryScreenState extends State<KlayHistoryScreen> {
   final String userId;
   List<KlayTransfer> history = [];
+  int startTimestamp;
 
   KlayHistoryScreenState({Key key, this.userId});
 
   @override
   void initState() {
     super.initState();
-    Client.getKlayHistory(
-      userId,
-      (DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch /
-              1000)
-          .round(),
-    )
-        .then((value) => setState(() {
-              this.history = value;
-            }))
-        .catchError((err) => print(err));
+    Preference.getTimestamp().then((ts) async {
+      int end = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+      List<KlayTransfer> value = await Client.getKlayHistory(userId, ts, end);
+      Preference.saveTimestamp(end);
+
+      setState(() {
+        this.history = value;
+      });
+    });
   }
 
   @override

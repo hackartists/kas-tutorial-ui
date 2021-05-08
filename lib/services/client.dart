@@ -74,8 +74,7 @@ class Client {
   }
 
   static Future<List<KlayTransfer>> getKlayHistory(
-      String userId, int start) async {
-    int end = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+      String userId, int start, int end) async {
     final response = await http
         .get(Uri.http(endpoint, "/v1/user/$userId/klay/transfer-history", {
       'start-timestamp': start.toString(),
