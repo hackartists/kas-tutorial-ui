@@ -14,4 +14,13 @@ class KlayTransfer {
       timestamp: json['timestamp'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'timestamp': timestamp,
+      'eventType': eventType,
+      'target': target,
+      'value': value,
+    };
+  }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kastutorial/store/preference.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:kastutorial/store/sqlite.dart';
 
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 
 Future main() async {
   await DotEnv.load(fileName: '.env');
+  await Sqlite.initDatabase();
   runApp(MyApp());
 }
 

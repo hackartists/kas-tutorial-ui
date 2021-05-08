@@ -24,7 +24,8 @@ class KlayHistoryScreenState extends State<KlayHistoryScreen> {
     super.initState();
     Preference.getTimestamp().then((ts) async {
       int end = (DateTime.now().millisecondsSinceEpoch / 1000).round();
-      List<KlayTransfer> value = await Client.getKlayHistory(userId, ts, end);
+      List<KlayTransfer> value =
+          await Client.getKlayHistory(userId, 1620374199, end);
       Preference.saveTimestamp(end);
 
       setState(() {

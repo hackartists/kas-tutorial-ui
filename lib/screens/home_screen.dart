@@ -8,8 +8,8 @@ import 'package:kastutorial/services/client.dart';
 import 'package:kastutorial/store/preference.dart';
 
 class HomeScreen extends StatefulWidget {
-  String username;
-  String password;
+  final String username;
+  final String password;
 
   HomeScreen({Key key, this.username, this.password}) : super(key: key);
 
