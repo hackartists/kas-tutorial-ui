@@ -22,11 +22,24 @@ class KlayHistoryScreenState extends State<KlayHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    Preference.getTimestamp().then((ts) async {
+    KlayTransfer kt = KlayTransfer();
+    kt.select().then((result) async {
+      setState(() {
+        this.history = result;
+      });
+      int ts = await Preference.getTimestamp();
       int end = (DateTime.now().millisecondsSinceEpoch / 1000).round();
-      List<KlayTransfer> value =
-          await Client.getKlayHistory(userId, 1620374199, end);
+      List<KlayTransfer> value = await Client.getKlayHistory(userId, ts, end);
       Preference.saveTimestamp(end);
+
+      if (value.length == 0) {
+        return;
+      }
+
+      for (final el in value) {
+        await el.create();
+      }
+      value.addAll(this.history);
 
       setState(() {
         this.history = value;
@@ -54,6 +67,7 @@ class KlayHistoryScreenState extends State<KlayHistoryScreen> {
       Color color = element.eventType == 'received'
           ? Colors.blueAccent
           : Colors.redAccent;
+      String event = element.eventType == 'received' ? '받음' : '보냄';
 
       ret.add(
         ListTile(
@@ -67,7 +81,7 @@ class KlayHistoryScreenState extends State<KlayHistoryScreen> {
             color: color,
           ),
           trailing: Text(
-            '받음',
+            event,
             style: TextStyle(color: color),
           ),
         ),

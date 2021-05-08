@@ -1,5 +1,6 @@
 abstract class SqliteModel {
+  int id;
+
   Map<String, dynamic> toMap();
-  void fromMap(Map<String, dynamic> map);
-  List fromArray(List list);
+  dynamic fromMap(Map<String, dynamic> map);
 }

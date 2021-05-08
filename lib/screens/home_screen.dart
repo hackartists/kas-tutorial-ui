@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kastutorial/components/app_button.dart';
 import 'package:kastutorial/screens/klay_history_screen.dart';
+import 'package:kastutorial/screens/nft_home_screen.dart';
 import 'package:kastutorial/screens/send_klay_screen.dart';
 import 'package:kastutorial/services/client.dart';
 import 'package:kastutorial/store/preference.dart';
@@ -165,18 +166,29 @@ class HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
+                      Spacer(),
+                      AppButton(
+                        label: "자산",
+                        icon: Icons.card_giftcard,
+                        color: Colors.blueAccent,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return NftHomeScreen();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      Spacer(),
                       AppButton(
                         label: "공동금고",
                         icon: Icons.monetization_on,
                         color: Colors.amberAccent,
                         onPressed: () {},
                       ),
-                      AppButton(
-                        label: "자산",
-                        icon: Icons.card_giftcard,
-                        color: Colors.blueAccent,
-                        onPressed: () {},
-                      ),
+                      Spacer(),
                       AppButton(
                         label: "포인트",
                         icon: Icons.credit_card,
