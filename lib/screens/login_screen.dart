@@ -9,7 +9,12 @@ const users = const {
   'luffy': '1234',
 };
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   String username;
   String password;
 
@@ -21,6 +26,10 @@ class LoginScreen extends StatelessWidget {
       User user = await Client.loginUser(data.name, data.password);
       print(user.address);
       if (user.address != null) {
+        setState(() {
+          this.username = data.name;
+          this.password = data.password;
+        });
         Preference.saveAuthentication(data.name, data.password);
         Preference.saveAccountAddress(user.address);
         int ts = (DateTime.now().millisecondsSinceEpoch / 1000).round();
@@ -54,11 +63,13 @@ class LoginScreen extends StatelessWidget {
       logo: 'assets/images/klaytn-logo-green.png',
       onLogin: _authUser,
       onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) {
-            return HomeScreen(username: username, password: password);
-          },
-        ));
+        if (username != null) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) {
+              return HomeScreen(username: username, password: password);
+            },
+          ));
+        }
       },
       messages: LoginMessages(usernameHint: "Username"),
       emailValidator: (String value) => null,
