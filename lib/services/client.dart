@@ -93,4 +93,23 @@ class Client {
 
     return ret;
   }
+
+  static Future<String> uploadImage(path, name, kind) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.http(endpoint, '/v1/asset/upload'),
+    )
+      ..fields['name'] = name
+      ..fields['kind'] = kind
+      ..files.add(await http.MultipartFile.fromPath(
+        'file',
+        path,
+      ));
+    var response = await request.send();
+    String body = await response.stream.bytesToString();
+    print(body);
+    String uri = jsonDecode(body)['uri'];
+
+    return 'http://$endpoint$uri';
+  }
 }
