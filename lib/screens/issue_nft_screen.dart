@@ -7,18 +7,26 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kastutorial/services/client.dart';
 
 class IssueNftScreen extends StatefulWidget {
+  final String username;
+
   const IssueNftScreen({
     Key key,
+    this.username,
   }) : super(key: key);
 
   @override
-  _IssueNftScreenState createState() => _IssueNftScreenState();
+  _IssueNftScreenState createState() => _IssueNftScreenState(this.username);
 }
 
 class _IssueNftScreenState extends State<IssueNftScreen> {
   String imagePath;
   String name;
   String kind = '캐릭터 카드';
+  String username;
+
+  _IssueNftScreenState(String username) {
+    this.username = username;
+  }
 
   final picker = ImagePicker();
 
