@@ -5,12 +5,14 @@ class NftCard extends StatelessWidget {
   final String url;
   final String name;
   final String kind;
+  final String tokenId;
 
   const NftCard({
     Key key,
     @required this.url,
     @required this.name,
     @required this.kind,
+    @required this.tokenId,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,12 @@ class NftCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return SendNftCardScreen();
+              return SendNftCardScreen(
+                tokenId: tokenId,
+                imageUrl: url,
+                name: name,
+                kind: kind,
+              );
             },
           ),
         );

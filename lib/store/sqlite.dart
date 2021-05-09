@@ -46,7 +46,8 @@ class Sqlite<T> {
   Future<List<T>> select() async {
     Database db = await database;
 
-    final List<Map<String, dynamic>> maps = await db.query(table);
+    final List<Map<String, dynamic>> maps =
+        await db.query(table, orderBy: 'timestamp desc');
 
     return List.generate(maps.length, (index) {
       return doc.fromMap(maps[index]);

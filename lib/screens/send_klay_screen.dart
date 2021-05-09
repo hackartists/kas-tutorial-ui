@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kastutorial/services/client.dart';
+import 'package:kastutorial/components/toast.dart';
 
 class SendKlayScreen extends StatefulWidget {
   final String user;
@@ -20,17 +20,8 @@ class SendKlayScreenState extends State<SendKlayScreen> {
   String toUser;
   String user;
   final _controller = TextEditingController();
-  FToast ft;
 
   SendKlayScreenState({this.user});
-
-  @override
-  void initState() {
-    super.initState();
-
-    ft = FToast();
-    ft.init(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +97,18 @@ class SendKlayScreenState extends State<SendKlayScreen> {
                   // Respond to button press
                   try {
                     await Client.sendKlay(user, toUser, amount);
-                    _showToast("클레이 전송을 완료하였습니다.", Colors.greenAccent);
+                    Toast.showToast(
+                      context,
+                      "클레이 전송을 완료하였습니다.",
+                      Colors.greenAccent,
+                    );
                   } catch (e) {
                     print(e);
-                    _showToast("클레이 전송을 실패하였습니다.", Colors.redAccent);
+                    Toast.showToast(
+                      context,
+                      "클레이 전송을 실패하였습니다.",
+                      Colors.redAccent,
+                    );
                   } finally {
                     Navigator.of(context).pop();
                   }
@@ -122,43 +121,5 @@ class SendKlayScreenState extends State<SendKlayScreen> {
         ],
       ),
     );
-  }
-
-  _showToast(String text, Color color) {
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: color,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text(text),
-        ],
-      ),
-    );
-
-    ft.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
-    );
-
-    // Custom Toast Position
-    // ft.showToast(
-    //     child: toast,
-    //     toastDuration: Duration(seconds: 2),
-    //     positionedToastBuilder: (context, child) {
-    //       return Positioned(
-    //         child: child,
-    //         top: 16.0,
-    //         left: 16.0,
-    //       );
-    //     });
   }
 }

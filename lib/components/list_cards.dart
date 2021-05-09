@@ -43,14 +43,12 @@ class _ListCardsState extends State<ListCards> {
     for (int i = 0; i < tokens.length; i = i + rowLimit) {
       List<Widget> row = [];
       for (int j = i; j < i + rowLimit && j < tokens.length; j++) {
-        print('http://$endpoint' + tokens[j].imageUrl);
-        print(tokens[j].name);
-        print(tokens[j].kind);
         row.add(
           NftCard(
             url: 'http://$endpoint' + tokens[j].imageUrl,
             name: tokens[j].name,
             kind: tokens[j].kind,
+            tokenId: tokens[j].tokenId,
           ),
           // Spacer(),
         );
