@@ -49,6 +49,7 @@ class _ListCardsState extends State<ListCards> {
             name: tokens[j].name,
             kind: tokens[j].kind,
             tokenId: tokens[j].tokenId,
+            username: username,
           ),
           // Spacer(),
         );

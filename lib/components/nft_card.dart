@@ -6,19 +6,23 @@ class NftCard extends StatelessWidget {
   final String name;
   final String kind;
   final String tokenId;
+  final String username;
 
   const NftCard({
     Key key,
     @required this.url,
     @required this.name,
     @required this.kind,
-    @required this.tokenId,
+    this.tokenId,
+    this.username,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if (tokenId == null) return;
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
@@ -27,6 +31,7 @@ class NftCard extends StatelessWidget {
                 imageUrl: url,
                 name: name,
                 kind: kind,
+                username: username,
               );
             },
           ),

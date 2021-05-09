@@ -9,6 +9,7 @@ class SendNftCardScreen extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String kind;
+  final String username;
 
   const SendNftCardScreen({
     Key key,
@@ -16,6 +17,7 @@ class SendNftCardScreen extends StatefulWidget {
     this.imageUrl,
     this.name,
     this.kind,
+    this.username,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,6 @@ class _SendNftCardScreenState extends State<SendNftCardScreen> {
             url: widget.imageUrl,
             name: widget.name,
             kind: widget.kind,
-            tokenId: widget.tokenId,
           ),
           TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
@@ -84,7 +85,11 @@ class _SendNftCardScreenState extends State<SendNftCardScreen> {
               onPressed: () async {
                 // Respond to button press
                 try {
-                  // await Client.sendKlay(user, toUser, amount);
+                  await Client.sendNftToken(
+                    widget.username,
+                    widget.tokenId,
+                    toUser,
+                  );
                   Toast.showToast(
                     context,
                     '카드 전송요청이 완료되었습니다.',
