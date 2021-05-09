@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kastutorial/services/client.dart';
@@ -100,7 +98,7 @@ class _IssueNftScreenState extends State<IssueNftScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: '발행하기',
         onPressed: () async {
-          String url = await Client.uploadImage(imagePath, name, kind);
+          String url = await Client.issueToken(username, imagePath, name, kind);
 
           Navigator.of(context).popUntil((route) => route.isFirst);
         },

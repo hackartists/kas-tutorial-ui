@@ -3,10 +3,14 @@ import 'package:kastutorial/screens/send_nft_screen.dart';
 
 class NftCard extends StatelessWidget {
   final String url;
+  final String name;
+  final String kind;
 
   const NftCard({
     Key key,
     @required this.url,
+    @required this.name,
+    @required this.kind,
   }) : super(key: key);
 
   @override
@@ -38,16 +42,16 @@ class NftCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const ListTile(
+              ListTile(
                 // leading: Icon(Icons.album),
                 title: Text(
-                  'Luffy',
+                  name,
                   style: TextStyle(
                     fontSize: 15,
                   ),
                 ),
                 subtitle: Text(
-                  '캐릭터 카드',
+                  kind,
                   style: TextStyle(
                     fontSize: 6,
                   ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:kastutorial/models/klay_transfer.dart';
+import 'package:kastutorial/models/nft_token.dart';
 import 'package:kastutorial/models/user.dart';
 
 class Client {
@@ -94,10 +95,10 @@ class Client {
     return ret;
   }
 
-  static Future<String> uploadImage(path, name, kind) async {
+  static Future<String> issueToken(user, path, name, kind) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.http(endpoint, '/v1/asset/upload'),
+      Uri.http(endpoint, '/v1/asset/$user/issue'),
     )
       ..fields['name'] = name
       ..fields['kind'] = kind
@@ -111,5 +112,21 @@ class Client {
     String uri = jsonDecode(body)['uri'];
 
     return 'http://$endpoint$uri';
+  }
+
+  static Future<List> listTokens(user) async {
+    final response =
+        await http.get(Uri.http(endpoint, "/v1/asset/$user/token"));
+
+    List<NftToken> ret = [];
+    if (response.statusCode == 200) {
+      List<dynamic> history = jsonDecode(response.body);
+
+      history.forEach((element) {
+        ret.add(NftToken.fromResponseBody(element));
+      });
+    }
+
+    return ret;
   }
 }

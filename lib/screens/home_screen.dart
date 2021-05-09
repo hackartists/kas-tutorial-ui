@@ -43,7 +43,7 @@ class HomeScreenState extends State<HomeScreen> {
     Preference.getAddress().then((value) => setState(() {
           this.address = value;
 
-          Timer.periodic(new Duration(seconds: 3), (timer) async {
+          Timer.periodic(new Duration(seconds: 60), (timer) async {
             String balance = await Client.getBalance(username);
             setState(() {
               this.balance = balance;
@@ -175,7 +175,9 @@ class HomeScreenState extends State<HomeScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return NftHomeScreen();
+                                return NftHomeScreen(
+                                  username: username,
+                                );
                               },
                             ),
                           );
