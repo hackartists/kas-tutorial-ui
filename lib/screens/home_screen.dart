@@ -33,22 +33,29 @@ class HomeScreenState extends State<HomeScreen> {
       this.balance = '-';
     });
     super.initState();
+    if (username != null) {
+      Client.getBalance(username).then((value) => setState(() {
+            this.balance = value;
+          }));
+    }
+    Timer.periodic(new Duration(seconds: 60), (timer) async {
+      print(username);
+      String balance = await Client.getBalance(username);
+      setState(() {
+        this.balance = balance;
+      });
+    });
+
     Preference.getUsername().then((value) => setState(() {
           this.username = value;
         }));
+
     Preference.getPassword().then((value) => setState(() {
           this.password = value;
         }));
 
     Preference.getAddress().then((value) => setState(() {
           this.address = value;
-
-          Timer.periodic(new Duration(seconds: 60), (timer) async {
-            String balance = await Client.getBalance(username);
-            setState(() {
-              this.balance = balance;
-            });
-          });
         }));
   }
 
