@@ -85,11 +85,12 @@ class _SendNftCardScreenState extends State<SendNftCardScreen> {
               onPressed: () async {
                 // Respond to button press
                 try {
-                  await Client.sendNftToken(
+                  String txhash = await Client.sendNftToken(
                     widget.username,
                     widget.tokenId,
                     toUser,
                   );
+                  print(txhash);
                   Toast.showToast(
                     context,
                     '카드 전송요청이 완료되었습니다.',
