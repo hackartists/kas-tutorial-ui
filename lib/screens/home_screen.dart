@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kastutorial/components/app_button.dart';
 import 'package:kastutorial/screens/klay_history_screen.dart';
 import 'package:kastutorial/screens/nft_home_screen.dart';
+import 'package:kastutorial/screens/safe_money_screen.dart';
 import 'package:kastutorial/screens/send_klay_screen.dart';
 import 'package:kastutorial/services/client.dart';
 import 'package:kastutorial/store/preference.dart';
@@ -160,6 +161,7 @@ class HomeScreenState extends State<HomeScreen> {
                 children: [
                   new Row(
                     children: [
+                      Spacer(),
                       AppButton(
                         label: "거래내역",
                         icon: Icons.history,
@@ -195,15 +197,25 @@ class HomeScreenState extends State<HomeScreen> {
                         label: "공동금고",
                         icon: Icons.monetization_on,
                         color: Colors.amberAccent,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return SafeMoneyScreen(
+                                  userId: username,
+                                );
+                              },
+                            ),
+                          );
+                        },
                       ),
                       Spacer(),
-                      AppButton(
-                        label: "포인트",
-                        icon: Icons.credit_card,
-                        color: Colors.blueAccent,
-                        onPressed: () {},
-                      ),
+                      // AppButton(
+                      //   label: "포인트",
+                      //   icon: Icons.credit_card,
+                      //   color: Colors.blueAccent,
+                      //   onPressed: () {},
+                      // ),
                     ],
                   ),
                   new Row(

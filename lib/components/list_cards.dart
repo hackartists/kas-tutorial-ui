@@ -6,23 +6,27 @@ import 'package:kastutorial/services/client.dart';
 
 class ListCards extends StatefulWidget {
   final String username;
+  final NftCardCallback onTab;
 
   const ListCards({
     Key key,
     this.username,
+    this.onTab,
   }) : super(key: key);
 
   @override
-  _ListCardsState createState() => _ListCardsState(this.username);
+  _ListCardsState createState() => _ListCardsState(this.username, this.onTab);
 }
 
 class _ListCardsState extends State<ListCards> {
   static final endpoint = env['CLIENT_URL'];
   String username;
   List<NftToken> tokens = [];
+  NftCardCallback onTab;
 
-  _ListCardsState(String username) {
+  _ListCardsState(String username, NftCardCallback onTab) {
     this.username = username;
+    this.onTab = onTab;
   }
 
   @override
@@ -50,6 +54,7 @@ class _ListCardsState extends State<ListCards> {
             kind: tokens[j].kind,
             tokenId: tokens[j].tokenId,
             username: username,
+            onTab: onTab,
           ),
           // Spacer(),
         );
