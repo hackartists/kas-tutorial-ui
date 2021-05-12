@@ -153,7 +153,7 @@ class Client {
   }
 
   static Future<SafeMoney> createSafeMoney(
-      userId, safeName, tokenId, invitedUsers) async {
+      userId, safeName, tokenId, invitedUsers, image) async {
     final response = await http.post(
       Uri.http(endpoint, '/v1/safe'),
       headers: <String, String>{
@@ -164,6 +164,7 @@ class Client {
         'name': safeName,
         'warrant': tokenId,
         'invitees': invitedUsers,
+        'image': image,
       }),
     );
 
@@ -172,5 +173,13 @@ class Client {
     }
 
     throw Exception('failed to create safe money');
+  }
+
+  static Future<List> listSafeMoney(userId) async {
+    final response = await http.get(Uri.http(endpoint, '/v1/safe/$userId'));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body).map((map) => SafeMoney.fromJson(map));
+    }
+    return [];
   }
 }

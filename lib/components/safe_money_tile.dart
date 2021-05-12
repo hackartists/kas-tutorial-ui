@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SafeMoneyTile extends StatelessWidget {
+  final String name;
+  final String image;
+  final String creator;
+
   const SafeMoneyTile({
-    Key key,
+    Key key, this.name, this.image, this.creator,
   }) : super(key: key);
 
   @override
@@ -18,8 +22,7 @@ class SafeMoneyTile extends StatelessWidget {
               color: Colors.red,
               width: 70,
               height: 70,
-              child: Image.network(
-                  "http://morimuri.co.kr/web/product/big/morimurij_672.jpg"),
+              child: Image.network(image),
             ),
             SizedBox(width: 10),
             Expanded(
@@ -27,8 +30,8 @@ class SafeMoneyTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Test Title'),
-                  Text('Test Video', style: TextStyle(color: Colors.grey))
+                  Text(name),
+                  Text(creator, style: TextStyle(color: Colors.grey))
                 ],
               ),
             ),
