@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:kastutorial/models/klay_transfer.dart';
 import 'package:kastutorial/models/nft_token.dart';
+import 'package:kastutorial/models/safe.dart';
 import 'package:kastutorial/models/user.dart';
 
 class Client {
@@ -149,5 +150,27 @@ class Client {
     }
 
     throw Exception('failed to send NFT token');
+  }
+
+  static Future<SafeMoney> createSafeMoney(
+      userId, safeName, tokenId, invitedUsers) async {
+    final response = await http.post(
+      Uri.http(endpoint, '/v1/safe'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'creator': userId,
+        'name': safeName,
+        'warrant': tokenId,
+        'invitees': invitedUsers,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return SafeMoney.fromJson(jsonDecode(response.body));
+    }
+
+    throw Exception('failed to create safe money');
   }
 }

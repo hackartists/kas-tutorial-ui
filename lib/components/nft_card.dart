@@ -49,6 +49,7 @@ class NftCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = (this.width == null) ? 110 : this.width;
     double height = (this.height == null) ? 150 : this.height;
+    print('nft card url on $url');
 
     return InkWell(
       onTap: (this.onTab == null)
@@ -67,7 +68,7 @@ class NftCard extends StatelessWidget {
                 height: height,
                 child: ColoredBox(
                   color: Colors.lightBlueAccent.withOpacity(0.2),
-                  child: (url != '')
+                  child: (url != null && url != '')
                       ? Image.network(
                           url,
                           width: width,
