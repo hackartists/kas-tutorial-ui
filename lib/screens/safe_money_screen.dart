@@ -67,6 +67,10 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
           name: el.name,
           creator: el.creator,
           image: el.image,
+          tokenId: el.tokenId,
+          address: el.address,
+          pendings: el.pendings,
+          username: userId,
         ),
       );
     }

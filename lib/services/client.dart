@@ -177,9 +177,28 @@ class Client {
 
   static Future<List> listSafeMoney(userId) async {
     final response = await http.get(Uri.http(endpoint, '/v1/safe/$userId'));
+    print(response.body);
+    List<SafeMoney> ret = [];
     if (response.statusCode == 200) {
-      return jsonDecode(response.body).map((map) => SafeMoney.fromJson(map));
+      for (final map in jsonDecode(response.body)) {
+        ret.add(SafeMoney.fromJson(map));
+      }
     }
-    return [];
+    return ret;
+  }
+
+  static Future approveTransaction(userId, transactionId, safeAddress, tokenId) async {
+    final response = await http.post(
+      Uri.http(endpoint, '/v1/safe/$safeAddress/$tokenId/sign'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'transactionId': transactionId,
+        'userId': userId,
+      }),
+    );
+
+    print(response.body);
   }
 }

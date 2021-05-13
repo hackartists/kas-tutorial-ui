@@ -9,7 +9,8 @@ class CreateSafeMoneyScreen extends StatefulWidget {
   CreateSafeMoneyScreen({Key key, @required this.userId}) : super(key: key);
 
   @override
-  CreateSafeMoneyScreenState createState() => CreateSafeMoneyScreenState(this.userId);
+  CreateSafeMoneyScreenState createState() =>
+      CreateSafeMoneyScreenState(this.userId);
 }
 
 class CreateSafeMoneyScreenState extends State<CreateSafeMoneyScreen> {
@@ -43,9 +44,10 @@ class CreateSafeMoneyScreenState extends State<CreateSafeMoneyScreen> {
         children: [
           SelectWarrantCard(
             userId: userId,
-            onSelect: (String tokenId) {
+            onSelect: (String tokenId, String url) {
               setState(() {
                 this.tokenId = tokenId;
+                this.url = url;
               });
             },
           ),
@@ -70,7 +72,7 @@ class CreateSafeMoneyScreenState extends State<CreateSafeMoneyScreen> {
               //   });
               // },
               decoration: InputDecoration(
-                labelText: "전송할 사용자 아이디",
+                labelText: "초대할 사용자",
                 border: OutlineInputBorder(),
               ),
             ),
@@ -107,7 +109,8 @@ class CreateSafeMoneyScreenState extends State<CreateSafeMoneyScreen> {
             child: ElevatedButton.icon(
               onPressed: () async {
                 await Client.createSafeMoney(
-                    userId, safeName, tokenId, invitedUser,url);
+                    userId, safeName, tokenId, invitedUser, url);
+                Navigator.of(context).pop();
               },
               icon: Icon(Icons.send, size: 18),
               label: Text("금고 생성"),

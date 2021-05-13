@@ -3,8 +3,10 @@ class SafeMoney {
   String name;
   String creator;
   String image;
+  String tokenId;
+  dynamic pendings;
 
-  SafeMoney({this.address, this.name, this.creator, this.image});
+  SafeMoney({this.address, this.name, this.creator, this.image, this.tokenId, this.pendings});
 
   static SafeMoney fromJson(Map<String, dynamic> json) {
     return SafeMoney(
@@ -12,6 +14,8 @@ class SafeMoney {
       name: json['name'],
       creator: json['creator'],
       image: json['image'],
+      tokenId: json['tokenId'],
+      pendings: json['pendings'],
     );
   }
 }

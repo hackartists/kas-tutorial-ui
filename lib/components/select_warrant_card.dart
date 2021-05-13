@@ -3,7 +3,7 @@ import 'package:kastutorial/components/nft_card.dart';
 
 import 'list_cards.dart';
 
-typedef void warrantCallback(String tokenId);
+typedef void warrantCallback(String tokenId, String url);
 
 class SelectWarrantCard extends StatefulWidget {
   final String userId;
@@ -74,7 +74,7 @@ class SelectWarrantCardState extends State<SelectWarrantCard> {
   void cardSelectionCallback(tokenId, url, name, kind) {
     print(url);
     Navigator.of(context).pop();
-    widget.onSelect(tokenId);
+    widget.onSelect(tokenId, url);
     setState(() {
       this.tokenId = tokenId;
       this.url = url;

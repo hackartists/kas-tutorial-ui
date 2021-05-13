@@ -11,6 +11,7 @@ class NftCard extends StatelessWidget {
   final String username;
   final double width;
   final double height;
+  final Color color;
   NftCardCallback onTab;
 
   NftCard({
@@ -23,6 +24,7 @@ class NftCard extends StatelessWidget {
     this.width,
     this.height,
     this.onTab,
+    this.color,
   }) : super(key: key);
 
   GestureTapCallback onTabDefault(context) {
@@ -77,6 +79,7 @@ class NftCard extends StatelessWidget {
                 ),
               ),
               ListTile(
+                tileColor: this.color,
                 // leading: Icon(Icons.album),
                 title: Text(
                   name,

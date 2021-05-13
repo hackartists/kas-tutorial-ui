@@ -7,11 +7,13 @@ import 'package:kastutorial/services/client.dart';
 class ListCards extends StatefulWidget {
   final String username;
   final NftCardCallback onTab;
+  final dynamic pendings;
 
   const ListCards({
     Key key,
     this.username,
     this.onTab,
+    this.pendings,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class _ListCardsState extends State<ListCards> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.pendings);
     int rowLimit = 3;
     List<Widget> rows = [];
     for (int i = 0; i < tokens.length; i = i + rowLimit) {
@@ -55,6 +58,10 @@ class _ListCardsState extends State<ListCards> {
             tokenId: tokens[j].tokenId,
             username: username,
             onTab: onTab,
+            color: (widget.pendings == null ||
+                    widget.pendings[tokens[j].tokenId] == null)
+                ? null
+                : Colors.yellowAccent,
           ),
           // Spacer(),
         );
