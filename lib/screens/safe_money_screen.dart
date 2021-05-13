@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kastutorial/components/safe_money_tile.dart';
-import 'package:kastutorial/models/klay_transfer.dart';
+import 'package:kastutorial/models/safe.dart';
 import 'package:kastutorial/screens/create_safe_money_screen.dart';
+import 'package:kastutorial/services/client.dart';
 
 class SafeMoneyScreen extends StatefulWidget {
   final String userId;
@@ -14,7 +15,7 @@ class SafeMoneyScreen extends StatefulWidget {
 
 class SafeMoneyScreenState extends State<SafeMoneyScreen> {
   final String userId;
-  List<KlayTransfer> history = [];
+  List<SafeMoney> safes = [];
   int startTimestamp;
 
   SafeMoneyScreenState({Key key, this.userId});
@@ -22,6 +23,14 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
   @override
   void initState() {
     super.initState();
+
+    Client.listSafeMoney(userId).then((value) {
+      setState(() {
+        this.safes = value;
+      });
+
+      return null;
+    });
   }
 
   @override
@@ -50,14 +59,21 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
   }
 
   ListView buildListView() {
+    List<Widget> widgets = [];
+
+    for (final el in this.safes) {
+      widgets.add(
+        SafeMoneyTile(
+          name: el.name,
+          creator: el.creator,
+          image: el.image,
+        ),
+      );
+    }
     return ListView(
       children: [
-        Padding(padding: EdgeInsets.only(top: 10)),
-        SafeMoneyTile(
-          name: "테스트 금고",
-          creator: "Luffy",
-          image: "http://morimuri.co.kr/web/product/big/morimurij_672.jpg",
-        ),
+        Padding(padding: EdgeInsets.only(top: 1)),
+       ...widgets,
       ],
     );
   }
