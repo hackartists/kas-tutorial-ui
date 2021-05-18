@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kastutorial/components/app_button.dart';
 import 'package:kastutorial/screens/klay_history_screen.dart';
 import 'package:kastutorial/screens/nft_home_screen.dart';
@@ -25,6 +26,7 @@ class HomeScreenState extends State<HomeScreen> {
   String password;
   String address;
   String balance;
+  static int interval;
 
   HomeScreenState({this.username, this.password});
 
@@ -39,7 +41,9 @@ class HomeScreenState extends State<HomeScreen> {
             this.balance = value;
           }));
     }
-    Timer.periodic(new Duration(seconds: 60), (timer) async {
+
+    interval = int.parse(env['INTERVAL']);
+    Timer.periodic(new Duration(seconds: interval), (timer) async {
       print(username);
       String balance = await Client.getBalance(username);
       setState(() {
