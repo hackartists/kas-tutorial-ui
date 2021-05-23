@@ -21,7 +21,6 @@ class ListCards extends StatefulWidget {
 }
 
 class _ListCardsState extends State<ListCards> {
-  static final endpoint = env['CLIENT_URL'];
   String username;
   List<NftToken> tokens = [];
   NftCardCallback onTab;
@@ -52,7 +51,7 @@ class _ListCardsState extends State<ListCards> {
       for (int j = i; j < i + rowLimit && j < tokens.length; j++) {
         row.add(
           NftCard(
-            url: 'http://$endpoint' + tokens[j].imageUrl,
+            url: tokens[j].imageUrl,
             name: tokens[j].name,
             kind: tokens[j].kind,
             tokenId: tokens[j].tokenId,

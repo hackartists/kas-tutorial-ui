@@ -122,10 +122,16 @@ class Client {
     List<NftToken> ret = [];
     if (response.statusCode == 200) {
       List<dynamic> history = jsonDecode(response.body);
+      print(history);
 
-      history.forEach((element) {
-        ret.add(NftToken.fromResponseBody(element));
-      });
+      for (final el in history) {
+        final tokenUri = el['tokenUri'];
+        print(tokenUri);
+        final resp = await http.get(Uri.parse(tokenUri));
+
+        ret.add(NftToken.fromResponseBody(jsonDecode(resp.body)));
+      }
+      history.forEach((element) {});
     }
 
     return ret;
@@ -187,7 +193,8 @@ class Client {
     return ret;
   }
 
-  static Future approveTransaction(userId, transactionId, safeAddress, tokenId) async {
+  static Future approveTransaction(
+      userId, transactionId, safeAddress, tokenId) async {
     final response = await http.post(
       Uri.http(endpoint, '/v1/safe/$safeAddress/$tokenId/sign'),
       headers: <String, String>{
