@@ -208,4 +208,26 @@ class Client {
 
     print(response.body);
   }
+
+  static Future<String> sendSafeNftToken(safe, user, tokenId, to) async {
+    final response = await http.post(
+      Uri.http(endpoint, '/v1/safe/$safe/token/$tokenId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "to": to,
+        "from": user,
+      }),
+    );
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> result = jsonDecode(response.body);
+
+      return result['transactionId'];
+    }
+
+    throw Exception('failed to send NFT token');
+  }
 }

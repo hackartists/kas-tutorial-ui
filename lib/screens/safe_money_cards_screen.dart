@@ -8,7 +8,8 @@ class SafeMoneyCardsScreen extends StatelessWidget {
   final String username;
   final dynamic pendings;
 
-  const SafeMoneyCardsScreen({Key key, this.address, this.pendings, this.username})
+  const SafeMoneyCardsScreen(
+      {Key key, this.address, this.pendings, this.username})
       : super(key: key);
 
   @override
@@ -22,8 +23,8 @@ class SafeMoneyCardsScreen extends StatelessWidget {
         child: ListCards(
           pendings: pendings,
           username: this.address,
-          onTab: (tokenId, url, name, kind) {
-            Navigator.of(context).push(
+          onTab: (tokenId, url, name, kind) async {
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
                   if (pendings == null || pendings[tokenId] == null) {
@@ -32,7 +33,8 @@ class SafeMoneyCardsScreen extends StatelessWidget {
                       imageUrl: url,
                       name: name,
                       kind: kind,
-                      username: address,
+                      username: username,
+                      safeAddress: address,
                     );
                   } else {
                     return SignCardScreen(
@@ -49,6 +51,8 @@ class SafeMoneyCardsScreen extends StatelessWidget {
                 },
               ),
             );
+
+            Navigator.of(context).pop();
           },
         ),
       ),

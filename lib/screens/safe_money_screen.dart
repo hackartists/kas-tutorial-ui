@@ -23,7 +23,10 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
   @override
   void initState() {
     super.initState();
+    updateState();
+  }
 
+  void updateState() {
     Client.listSafeMoney(userId).then((value) {
       setState(() {
         this.safes = value;
@@ -42,14 +45,16 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: '금고 만들기',
         child: Icon(Icons.security),
-        onPressed: () {
-          Navigator.of(context).push(
+        onPressed: () async {
+          await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
                 return CreateSafeMoneyScreen(userId: userId);
               },
             ),
           );
+
+          updateState();
         },
       ),
       body: Container(
@@ -71,13 +76,14 @@ class SafeMoneyScreenState extends State<SafeMoneyScreen> {
           address: el.address,
           pendings: el.pendings,
           username: userId,
+          afterBack: updateState,
         ),
       );
     }
     return ListView(
       children: [
         Padding(padding: EdgeInsets.only(top: 1)),
-       ...widgets,
+        ...widgets,
       ],
     );
   }

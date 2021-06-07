@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kastutorial/screens/safe_money_cards_screen.dart';
 
-class SafeMoneyTile extends StatefulWidget {
+class SafeMoneyTile extends StatelessWidget {
   final String name;
   final String image;
   final String creator;
@@ -9,6 +9,7 @@ class SafeMoneyTile extends StatefulWidget {
   final String address;
   final String username;
   final dynamic pendings;
+  final Function afterBack;
 
   const SafeMoneyTile({
     Key key,
@@ -19,28 +20,25 @@ class SafeMoneyTile extends StatefulWidget {
     this.address,
     this.pendings,
     this.username,
+    this.afterBack,
   }) : super(key: key);
-
-  @override
-  _SafeMoneyTileState createState() => _SafeMoneyTileState();
-}
-
-class _SafeMoneyTileState extends State<SafeMoneyTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
               return SafeMoneyCardsScreen(
-                address: widget.address,
-                pendings: widget.pendings,
-                username: widget.username,
+                address: this.address,
+                pendings: this.pendings,
+                username: this.username,
               );
             },
           ),
         );
+
+        this.afterBack();
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -53,7 +51,7 @@ class _SafeMoneyTileState extends State<SafeMoneyTile> {
                 color: Colors.transparent,
                 width: 70,
                 height: 70,
-                child: Image.network(widget.image),
+                child: Image.network(this.image),
               ),
               SizedBox(width: 10),
               Expanded(
@@ -61,8 +59,8 @@ class _SafeMoneyTileState extends State<SafeMoneyTile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(widget.name),
-                    Text(widget.creator, style: TextStyle(color: Colors.grey))
+                    Text(this.name),
+                    Text(this.creator, style: TextStyle(color: Colors.grey))
                   ],
                 ),
               ),

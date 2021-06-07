@@ -197,23 +197,23 @@ class HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       Spacer(),
-                      // AppButton(
-                      //   label: "공동금고",
-                      //   icon: Icons.monetization_on,
-                      //   color: Colors.amberAccent,
-                      //   onPressed: () {
-                      //     Navigator.of(context).push(
-                      //       MaterialPageRoute(
-                      //         builder: (context) {
-                      //           return SafeMoneyScreen(
-                      //             userId: username,
-                      //           );
-                      //         },
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-                      // Spacer(),
+                      AppButton(
+                        label: "공동금고",
+                        icon: Icons.monetization_on,
+                        color: Colors.amberAccent,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return SafeMoneyScreen(
+                                  userId: username,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      Spacer(),
                       // AppButton(
                       //   label: "포인트",
                       //   icon: Icons.credit_card,

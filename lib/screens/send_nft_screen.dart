@@ -10,6 +10,7 @@ class SendNftCardScreen extends StatefulWidget {
   final String name;
   final String kind;
   final String username;
+  final String safeAddress;
 
   const SendNftCardScreen({
     Key key,
@@ -18,6 +19,7 @@ class SendNftCardScreen extends StatefulWidget {
     this.name,
     this.kind,
     this.username,
+    this.safeAddress,
   }) : super(key: key);
 
   @override
@@ -85,11 +87,18 @@ class _SendNftCardScreenState extends State<SendNftCardScreen> {
               onPressed: () async {
                 // Respond to button press
                 try {
-                  String txhash = await Client.sendNftToken(
-                    widget.username,
-                    widget.tokenId,
-                    toUser,
-                  );
+                  String txhash = '';
+                  if (widget.safeAddress != null) {
+                    txhash = await Client.sendSafeNftToken(widget.safeAddress,
+                        widget.username, widget.tokenId, toUser);
+                  } else {
+                    txhash = await Client.sendNftToken(
+                      widget.username,
+                      widget.tokenId,
+                      toUser,
+                    );
+                  }
+
                   print(txhash);
                   Toast.showToast(
                     context,
